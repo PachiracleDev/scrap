@@ -89,8 +89,6 @@ export class ScrapingService {
               );
             } catch (error) {}
 
-            if (!one) continue;
-
             try {
               two = await page.evaluate(
                 (el) =>
@@ -101,17 +99,17 @@ export class ScrapingService {
               );
             } catch (error) {}
 
+            if (one == 'Null' || one == '-' || two == 'Null' || two == '-') {
+              continue;
+            }
+
             bets.push({
               page: 'Betway',
               category,
-              teamOne: {
-                name: firstTeam,
-                coef: one,
-              },
-              teamTwo: {
-                name: secoundTeam,
-                coef: two,
-              },
+              firstTeam,
+              secoundTeam,
+              teamOne: one,
+              teamTwo: two,
             });
           }
           break;
@@ -148,7 +146,7 @@ export class ScrapingService {
               one = await page.evaluate(
                 (el) =>
                   el.querySelector(
-                    '.style_moneyline__bFpDe div:nth-of-type(1) button',
+                    '.style_moneyline__bFpDe div:nth-of-type(1) span',
                   ).textContent,
                 bet,
               );
@@ -158,23 +156,23 @@ export class ScrapingService {
               two = await page.evaluate(
                 (el) =>
                   el.querySelector(
-                    '.style_moneyline__bFpDe div:nth-of-type(2) button',
+                    '.style_moneyline__bFpDe div:nth-of-type(2) span',
                   ).textContent,
                 bet,
               );
             } catch (error) {}
 
+            if (one == 'Null') {
+              continue;
+            }
+
             bets.push({
               page: 'Pinnacle',
               category,
-              teamOne: {
-                name: firstTeam,
-                coef: one,
-              },
-              teamTwo: {
-                name: secoundTeam,
-                coef: two,
-              },
+              firstTeam,
+              secoundTeam,
+              teamOne: one,
+              teamTwo: two,
             });
           }
           break;
@@ -225,17 +223,17 @@ export class ScrapingService {
               );
             } catch (error) {}
 
+            if (one == 'Null') {
+              continue;
+            }
+
             bets.push({
               page: '888starz',
               category,
-              teamOne: {
-                name: firstTeam.trim().replace(/\s+/g, ' '),
-                coef: one,
-              },
-              teamTwo: {
-                name: secoundTeam.trim().replace(/\s+/g, ' '),
-                coef: two,
-              },
+              firstTeam: firstTeam.trim().replace(/\s+/g, ' '),
+              secoundTeam: secoundTeam.trim().replace(/\s+/g, ' '),
+              teamOne: one,
+              teamTwo: two,
             });
           }
           break;

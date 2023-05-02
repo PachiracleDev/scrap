@@ -12,13 +12,11 @@ import config from './config';
 
 @Module({
   imports: [
-    AuthModule,
-    UsersModule,
     ConfigModule.forRoot({
       load: [config],
       isGlobal: true,
     }),
-    DatabaseModule,
+
     BetsModule,
   ],
   controllers: [AppController],
